@@ -1,0 +1,21 @@
+{
+  "name": "full-tweet",
+  "version": "0.0.1",
+  "description": "Stake your tweets",
+  "scripts": {
+    "dev": "webextension-toolbox dev",
+    "build": "webextension-toolbox build"
+  },
+  "devDependencies": {
+    "webextension-toolbox": "latest"
+  },
+  "dependencies": {
+    "babel-plugin-emotion": "^9.2.4",
+    "emotion": "^9.2.4",
+    "metamask-crx": "git+https://github.com/MetaMask/metamask-extension.git",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-emotion": "^9.2.4",
+    "web3": "^1.0.0-beta.34"
+  }
+}
