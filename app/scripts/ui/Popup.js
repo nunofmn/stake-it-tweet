@@ -1,45 +1,46 @@
-import styled, { css } from "react-emotion";
-import React, { Fragment } from "react";
-import PopupContent from "./PopupContent.js";
-import { digestTweet } from "../communication/metamaskUtil.js";
+import styled, { css } from 'react-emotion'
+import React, { Fragment } from 'react'
+import PopupContent from './PopupContent.js'
+import { digestTweet } from '../communication/metamaskUtil.js'
+import jsConnector from 'tweets-connector'
 
 export default class Popup extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
     this.state = {
       showPopup: false,
-      tweetData: { tweet: "", tweetDigest: "", nonce: "" },
+      tweetData: { tweet: '', tweetDigest: '', nonce: '' },
       // Hardcode judge
       judge: {
-        name: "@itsjoaosantos",
-        id: "0x3296C51BC98DD4dCd5605469EC3A736c0E60ef43"
+        name: '@itsjoaosantos', // charlie
+        id: '0x5AB08F6B03a954BAde5dFd8bedF3f226195127Db'
       },
       against: {
-        name: "@itsjoaosantos",
-        id: "0x3296C51BC98DD4dCd5605469EC3A736c0E60ef43"
+        name: '@itsjoaosantos', // bob
+        id: '0x64810ceFb991351B323E8A970CDA57E07EcBAd30'
       }
-    };
+    }
 
-    this.buttonClick = this.buttonClick.bind(this);
-    this.getTweetData = this.getTweetData.bind(this);
-    this.confirmStake = this.confirmStake.bind(this);
+    this.buttonClick = this.buttonClick.bind(this)
+    this.getTweetData = this.getTweetData.bind(this)
+    this.confirmStake = this.confirmStake.bind(this)
   }
 
-  getTweetData() {
-    const tweet = document.querySelector("#tweet-box-home-timeline")
-      .firstElementChild.innerText;
+  getTweetData () {
+    const tweet = document.querySelector('#tweet-box-home-timeline')
+      .firstElementChild.innerText
 
-    return tweet;
+    return tweet
   }
 
-  buttonClick() {
-    const cryptoRandoms = new Uint32Array(2);
-    const nonceArray = window.crypto.getRandomValues(cryptoRandoms);
-    const nonce = nonceArray[0];
+  buttonClick () {
+    const cryptoRandoms = new Uint32Array(2)
+    const nonceArray = window.crypto.getRandomValues(cryptoRandoms)
+    const nonce = nonceArray[0]
 
-    const tweet = this.getTweetData();
-    const tweetDigest = digestTweet(tweet, nonce);
+    const tweet = this.getTweetData()
+    const tweetDigest = digestTweet(tweet, nonce)
 
     this.setState(prevState => ({
       ...prevState,
@@ -49,20 +50,25 @@ export default class Popup extends React.Component {
         tweetDigest,
         nonce
       }
-    }));
+    }))
   }
 
-  confirmStake(tweet, judge, against, nonce, value) {
-    const tweetForm = document.querySelector("#tweet-box-home-timeline")
-      .firstElementChild;
+  confirmStake (tweetData, judge, against, nonce, value) {
+    const tweetForm = document.querySelector('#tweet-box-home-timeline')
+      .firstElementChild
 
-    tweetForm.innerText = `${tweet}\n#stakeit ${against.name} ${value} eth ${
+    tweetForm.innerText = `${tweetData.tweet}\n#stakeit ${against.name} ${value} eth ${
       judge.name
-    } n(${nonce})`;
+    } n(${nonce})`
+
+    // here -<
+    // (party2Address, judgeAddress, tweetId, stakeValue)
+    console.log('TWEET ID:' + tweetData.tweetDigest)
+    jsConnector.createStatement(against.id, judge.id, tweetData.tweetDigest, value).then(console.log).catch(console.err)
   }
 
-  render() {
-    const { tweetData, judge, against } = this.state;
+  render () {
+    const { tweetData, judge, against } = this.state
 
     return (
       <Fragment>
@@ -76,11 +82,11 @@ export default class Popup extends React.Component {
           />
         )}
       </Fragment>
-    );
+    )
   }
 }
 
-const Button = styled("a")`
+const Button = styled('a')`
   margin-left: 10px;
 
   background: #3498db;
@@ -109,4 +115,4 @@ const Button = styled("a")`
     text-decoration: none;
     color: #ffffff;
   }
-`;
+`

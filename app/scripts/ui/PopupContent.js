@@ -1,48 +1,48 @@
-import styled, { css } from "react-emotion";
-import React from "react";
+import styled, { css } from 'react-emotion';
+import React from 'react';
 
-export default function PopupContent({
+export default function PopupContent ({
   tweetData,
   against,
   judge,
   confirmStake
 }) {
   const setStake = () => {
-    confirmStake(tweetData.tweet, judge, against, tweetData.nonce, 1);
+    confirmStake(tweetData, judge, against, tweetData.nonce, 1)
   };
 
   return (
     <PopupContainer>
       <Field>
-        <label htmlFor="tweet">Tweet:</label>
-        <input id="full-tweet-text" value={tweetData.tweet} readOnly />
+        <label htmlFor='tweet'>Tweet:</label>
+        <input id='full-tweet-text' value={tweetData.tweet} readOnly />
       </Field>
       <Field>
-        <label htmlFor="hash">Hash:</label>
-        <input id="full-tweet-hash" value={tweetData.tweetDigest} readOnly />
+        <label htmlFor='hash'>Hash:</label>
+        <input id='full-tweet-hash' value={tweetData.tweetDigest} readOnly />
       </Field>
       <Field>
-        <label htmlFor="judge">Judge:</label>
-        <input id="full-tweet-judge" value={judge.name} readOnly />
+        <label htmlFor='judge'>Judge:</label>
+        <input id='full-tweet-judge' value={judge.name} readOnly />
       </Field>
       <Field>
-        <label htmlFor="against">Against:</label>
-        <input id="full-tweet-judge" value={against.name} readOnly />
+        <label htmlFor='against'>Against:</label>
+        <input id='full-tweet-judge' value={against.name} readOnly />
       </Field>
       <Field>
-        <label htmlFor="stake">Stake:</label>
-        <input id="full-tweet-stake" />
+        <label htmlFor='stake'>Stake:</label>
+        <input id='full-tweet-stake' />
       </Field>
       <Button onClick={setStake}>Confirm</Button>
     </PopupContainer>
-  );
+  )
 }
 
-const Field = styled("div")`
+const Field = styled('div')`
   margin: 5px 5px 5px 5px;
-`;
+`
 
-const PopupContainer = styled("div")`
+const PopupContainer = styled('div')`
   width: 300px;
   height: 200px;
   background-color: white;
@@ -50,9 +50,9 @@ const PopupContainer = styled("div")`
   margin-top: 10px;
   position: absolute;
   z-index: 60;
-`;
+`
 
-const Button = styled("a")`
+const Button = styled('a')`
   margin-left: 10px;
 
   background: #3498db;
@@ -81,4 +81,4 @@ const Button = styled("a")`
     text-decoration: none;
     color: #ffffff;
   }
-`;
+`
