@@ -15,7 +15,7 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-emotion": "^9.2.4",
-    "web3": "^1.0.0-beta.34",
-    "tweets-connector": "git+ssh://git@github.com:joaosantos15/full-of-tweet-js-connector.git"
+    "tweets-connector": "git+ssh://git@github.com:joaosantos15/full-of-tweet-js-connector.git",
+    "web3": "^1.0.0-beta.34"
   }
 }
