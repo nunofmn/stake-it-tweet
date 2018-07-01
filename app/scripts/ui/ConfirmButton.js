@@ -12,6 +12,13 @@ export default class ConfirmButton extends React.Component {
 
   buttonClick() {
     //Call contract here
+    jsConnector
+      .confirmStatement(
+        "0x58697fc9525c87559999a25d2a3a802e6b0d76eae53e42adc2f34dea3ff1b66d",
+        "1"
+      )
+      .then(console.log)
+      .catch(console.err);
   }
 
   render() {

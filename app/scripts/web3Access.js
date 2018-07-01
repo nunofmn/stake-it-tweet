@@ -13,7 +13,6 @@ window.addEventListener("load", function() {
   } else {
     console.log("No web3? You should consider trying MetaMask!");
   }
-  // var web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:7545'))
 
   const injectPoint = document.querySelector(".TweetBoxToolbar");
 
@@ -23,14 +22,11 @@ window.addEventListener("load", function() {
   );
 
   ReactDOM.render(<Popup />, popupInjectPoint);
-  /*
-  allTweets.map(tweet => {
-    console.log('Tweet hashtag: ', tweet.getElementsByTagName('a')[0])
-  }) */
 
   const tweetsFooter = Array.from(
     document.querySelectorAll(".stream-item-footer > .ProfileTweet-actionList")
   );
+
   tweetsFooter.forEach(point => {
     const injectElem = document.createElement("div");
     const confirmInject = point.appendChild(injectElem);
