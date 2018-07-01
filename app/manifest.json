@@ -42,6 +42,9 @@
     "<all_urls>",
     "tabs"
   ],
-  "content_security_policy": "script-src 'self' 'unsafe-eval' 'unsafe-inline'; object-src 'self'; font-src 'self' data:;"
+  "content_security_policy": "script-src 'self' 'unsafe-eval' 'unsafe-inline'; object-src 'self'; font-src 'self' data:;",
+  "web_accessible_resources":[
+    "scripts/web3Access.js"
+  ]
 
 }

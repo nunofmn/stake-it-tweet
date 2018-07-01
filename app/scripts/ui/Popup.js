@@ -1,51 +1,80 @@
 import styled, { css } from "react-emotion";
 import React, { Fragment } from "react";
 import PopupContent from "./PopupContent.js";
+import { digestTweet } from "../communication/metamaskUtil.js";
 
 export default class Popup extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { showPopup: false, tweetData: { tweet: "" } };
+
+    this.state = {
+      showPopup: false,
+      tweetData: { tweet: "", tweetDigest: "", nonce: "" },
+      // Hardcode judge
+      judge: {
+        name: "@itsjoaosantos",
+        id: "0x3296C51BC98DD4dCd5605469EC3A736c0E60ef43"
+      },
+      against: {
+        name: "@itsjoaosantos",
+        id: "0x3296C51BC98DD4dCd5605469EC3A736c0E60ef43"
+      }
+    };
+
     this.buttonClick = this.buttonClick.bind(this);
     this.getTweetData = this.getTweetData.bind(this);
+    this.confirmStake = this.confirmStake.bind(this);
   }
 
   getTweetData() {
     const tweet = document.querySelector("#tweet-box-home-timeline")
       .firstElementChild.innerText;
 
-    return {
-      tweet
-    };
+    return tweet;
   }
 
   buttonClick() {
+    const cryptoRandoms = new Uint32Array(2);
+    const nonceArray = window.crypto.getRandomValues(cryptoRandoms);
+    const nonce = nonceArray[0];
+
     const tweet = this.getTweetData();
+    const tweetDigest = digestTweet(tweet, nonce);
 
     this.setState(prevState => ({
+      ...prevState,
       showPopup: !prevState.showPopup,
-      tweetData: tweet
-    }));
-
-    const message = {
-      type: "stake-tweet",
-      payload: {
-        tweet
+      tweetData: {
+        tweet,
+        tweetDigest,
+        nonce
       }
-    };
+    }));
+  }
 
-    browser.runtime.sendMessage(message).then(response => {
-      console.log("Response: ", response);
-    });
+  confirmStake(tweet, judge, against, nonce, value) {
+    const tweetForm = document.querySelector("#tweet-box-home-timeline")
+      .firstElementChild;
+
+    tweetForm.innerText = `${tweet}\n#stakeit ${against.name} ${value} eth ${
+      judge.name
+    } n(${nonce})`;
   }
 
   render() {
-    const { tweetData } = this.state;
+    const { tweetData, judge, against } = this.state;
 
     return (
       <Fragment>
         <Button onClick={this.buttonClick}>Stake it!</Button>
-        {this.state.showPopup && <PopupContent tweetData={tweetData} />}
+        {this.state.showPopup && (
+          <PopupContent
+            tweetData={tweetData}
+            judge={judge}
+            against={against}
+            confirmStake={this.confirmStake}
+          />
+        )}
       </Fragment>
     );
   }

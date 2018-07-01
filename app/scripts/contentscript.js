@@ -4,6 +4,9 @@ import Popup from "./ui/Popup.js";
 
 const injectPoint = document.querySelector(".TweetBoxToolbar");
 
-// Inject button
-const popupInjectPoint = injectPoint.appendChild(document.createElement("div"));
-ReactDOM.render(<Popup />, popupInjectPoint);
+const web3Script = chrome.extension.getURL("scripts/web3Access.js");
+const node = document.getElementsByTagName("body")[0];
+const script = document.createElement("script");
+script.setAttribute("type", "text/javascript");
+script.setAttribute("src", web3Script);
+node.appendChild(script);

@@ -1,4 +1,5 @@
-export function digestTweet(web, tweet) {
-  console.log("Tweet: ", tweet);
-  return web.sha3(tweet);
+export function digestTweet(tweet, nonce) {
+  const tweetDigest = web3.sha3(tweet + nonce);
+
+  return tweetDigest;
 }
