@@ -1,5 +1,5 @@
-import styled, { css } from 'react-emotion';
-import React from 'react';
+import styled, { css } from 'react-emotion'
+import React from 'react'
 
 export default function PopupContent ({
   tweetData,
@@ -9,17 +9,13 @@ export default function PopupContent ({
 }) {
   const setStake = () => {
     confirmStake(tweetData, judge, against, tweetData.nonce, 1)
-  };
+  }
 
   return (
     <PopupContainer>
       <Field>
         <label htmlFor='tweet'>Tweet:</label>
         <input id='full-tweet-text' value={tweetData.tweet} readOnly />
-      </Field>
-      <Field>
-        <label htmlFor='hash'>Hash:</label>
-        <input id='full-tweet-hash' value={tweetData.tweetDigest} readOnly />
       </Field>
       <Field>
         <label htmlFor='judge'>Judge:</label>

@@ -3,6 +3,11 @@ import React, { Fragment } from 'react'
 import PopupContent from './PopupContent.js'
 import { digestTweet } from '../communication/metamaskUtil.js'
 import jsConnector from 'tweets-connector'
+import tweetsParser from 'stake-it-twitter-parser'
+
+// hash: 0x2bd3a5063c6b32efa51b709796d961f3f4a9b9be5096dc670bddf3384c1d5b73
+// hash: 0x30c5227700a804905cd21572610d89f188e1756605b588ab01665dfe9eef318e
+// the problem is that the tweet being generated is different than the one being used for the hash.
 
 export default class Popup extends React.Component {
   constructor (props) {
@@ -10,15 +15,15 @@ export default class Popup extends React.Component {
 
     this.state = {
       showPopup: false,
-      tweetData: { tweet: '', tweetDigest: '', nonce: '' },
+      tweetData: { tweet: '', nonce: '' },
       // Hardcode judge
       judge: {
-        name: '@itsjoaosantos', // charlie
-        id: '0x5AB08F6B03a954BAde5dFd8bedF3f226195127Db'
+        name: '@charlie_kjshdf8687', // charlie
+        id: window.localStorage.getItem('@charlie_kjshdf8687')
       },
       against: {
-        name: '@itsjoaosantos', // bob
-        id: '0x64810ceFb991351B323E8A970CDA57E07EcBAd30'
+        name: '@bob_kjshdf8687', // bob
+        id: window.localStorage.getItem('@bob_kjshdf8687')
       }
     }
 
@@ -38,16 +43,17 @@ export default class Popup extends React.Component {
     const cryptoRandoms = new Uint32Array(2)
     const nonceArray = window.crypto.getRandomValues(cryptoRandoms)
     const nonce = nonceArray[0]
-
+    const tweetDigest = 'a'
     const tweet = this.getTweetData()
-    const tweetDigest = digestTweet(tweet, nonce)
+    // const tweetDigest = digestTweet(tweet, nonce)
+
+    // window.localStorage.setItem('generated', tweet + nonce)
 
     this.setState(prevState => ({
       ...prevState,
       showPopup: !prevState.showPopup,
       tweetData: {
         tweet,
-        tweetDigest,
         nonce
       }
     }))
@@ -61,10 +67,13 @@ export default class Popup extends React.Component {
       judge.name
     } n(${nonce})`
 
+    const tweetDigest_ = tweetsParser.generateTweetIdFromContent(tweetForm.innerText)
+    window.localStorage.setItem('a', tweetDigest_)
+    console.error('Hash: ' + tweetDigest_)
     // here -<
     // (party2Address, judgeAddress, tweetId, stakeValue)
-    console.log('TWEET ID:' + tweetData.tweetDigest)
-    jsConnector.createStatement(against.id, judge.id, tweetData.tweetDigest, value).then(console.log).catch(console.err)
+
+    jsConnector.createStatement(against.id, judge.id, tweetDigest_, value).then(console.log).catch(console.err)
   }
 
   render () {

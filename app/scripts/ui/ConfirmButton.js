@@ -1,32 +1,43 @@
-import styled, { css } from "react-emotion";
-import React, { Fragment } from "react";
-import PopupContent from "./PopupContent.js";
-import jsConnector from "tweets-connector";
+import styled, { css } from 'react-emotion'
+import React, { Fragment } from 'react'
+import PopupContent from './PopupContent.js'
+import jsConnector from 'tweets-connector'
+import tweetsParser from 'stake-it-twitter-parser'
 
 export default class ConfirmButton extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.buttonClick = this.buttonClick.bind(this);
+  constructor (props) {
+    super(props)
+    this.buttonClick = this.buttonClick.bind(this)
   }
 
-  buttonClick() {
-    //Call contract here
+  buttonClick () {
+    // Call contract here
+    // eslint-disable-next-line
+    console.log('lalal')
+    let tweetContent = tweetsParser.getTweetText(this.props.tweetContent)
+    let tweetId
+    try {
+      tweetId = tweetsParser.generateTweetIdFromContent(tweetContent)
+      window.localStorage.setItem('1', tweetId)
+    } catch (e) {
+      console.error('Fail at generating tweet id')
+    }
+
     jsConnector
       .confirmStatement(
-        "0x58697fc9525c87559999a25d2a3a802e6b0d76eae53e42adc2f34dea3ff1b66d",
-        "1"
+        tweetId,
+        '1'
       )
       .then(console.log)
-      .catch(console.err);
+      .catch(console.err)
   }
-
-  render() {
-    return <Button onClick={this.buttonClick}>Confirm</Button>;
+// {this.props.nameLabel}
+  render () {
+    return <Button onClick={this.buttonClick}>Confirm</Button>
   }
 }
 
-const Button = styled("a")`
+const Button = styled('a')`
   margin-left: 10px;
 
   background: #3498db;
@@ -55,4 +66,4 @@ const Button = styled("a")`
     text-decoration: none;
     color: #ffffff;
   }
-`;
+`
